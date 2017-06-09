@@ -33,10 +33,12 @@ RUN apt-get update && apt-get install -y python-pip \
                                          liblz-dev \
                                          swig \
                                          libssl-dev \
-                                         libcups2-dev
+                                         libcups2-dev \
+                                         sudo
 
 RUN mkdir /root/.ssh/
 ADD id_rsa /root/.ssh/id_rsa
+RUN chmod 600 -R /root/.ssh
 RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
 
@@ -46,9 +48,10 @@ RUN apt-get install -y swig libffi-dev libssl-dev python-m2crypto python-httplib
 RUN git clone https://github.com/bmya/pyafipws-1.git /pyafipws
 WORKDIR /pyafipws/
 ADD ./requirements.txt /pyafipws/
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN python setup.py install
-RUN chmod 777 -R /usr/local/lib/python2.7/dist-packages/PyAfipWs-2.7.0-py2.7.egg/pyafipws/
+RUN chmod 777 -R /usr/local/lib/python2.7/dist-packages/PyAfipWs-2.7.0-py2.7.egg/
 
 # create directories for repos
 RUN mkdir -p /opt/odoo/stable-addons/oca
@@ -68,7 +71,10 @@ RUN chown -R odoo /var/lib/odoo
 
 # Instalación de repositorios varios BMyA
 WORKDIR /opt/odoo/stable-addons/bmya/
-
+RUN git clone -b 10.0 https://github.com/Danisan/odoo-telegram.git
+WORKDIR odoo-telegram/
+RUN pip install -r requirements.txt
+WORKDIR /opt/odoo/stable-addons/bmya/
 # Reemplaza a Odoo Addons
 # RUN git clone -b 10.0 https://github.com/bmya/sale.git
 # RUN git clone -b 10.0 https://github.com/bmya/product.git
@@ -86,8 +92,8 @@ WORKDIR /opt/odoo/stable-addons/bmya/
 # RUN git clone -b 10.0 https://github.com/bmya/multi-company.git
 # RUN git clone -b 10.0 https://github.com/bmya/account-analytic.git
 # RUN git clone -b 10.0 https://github.com/bmya/purchase.git
-# RUN git clone -b 10.0 https://github.com/bmya/reporting-engine.git
-# RUN git clone -b 10.0 https://github.com/bmya/crm.git
+RUN git clone -b 10.0 https://github.com/bmya/reporting-engine.git
+RUN git clone -b 10.0 https://github.com/bmya/crm.git
 # RUN git clone -b 10.0 https://github.com/bmya/adhoc-crm.git
 # RUN git clone -b 10.0 https://github.com/bmya/miscellaneous.git
 # RUN git clone -b 10.0 https://github.com/bmya/surveyor.git
@@ -96,11 +102,13 @@ WORKDIR /opt/odoo/stable-addons/bmya/
 # Modulos de OCA
 RUN git clone -b 10.0 https://github.com/OCA/server-tools.git
 RUN git clone -b 10.0 https://github.com/OCA/margin-analysis.git
+RUN git clone -b 10.0 https://github.com/OCA/product-attribute.git
+
 # RUN git clone -b 10.0 https://github.com/OCA/pos-addons.git
 # RUN git clone -b 10.0 https://github.com/OCA/pos.git
 
 # Localización Argentina
-RUN git clone -b 10.0 https://github.com/ingadhoc/odoo-argentina.git
+# RUN git clone -b 10.0 https://github.com/ingadhoc/odoo-argentina.git
 
 # Localización Chilena (Con Factura Electrónica LibreDTE)
 # RUN git clone -b 10.0 https://github.com/bmya/odoo-bmya-cl.git
@@ -135,7 +143,7 @@ WORKDIR /opt/odoo/extra-addons
 
 WORKDIR /opt/odoo/stable-addons/bmya/odoo-chile/
 WORKDIR /opt/odoo/stable-addons/bmya/
-RUN git clone -b 10.0 git@bitbucket.org:hdblanco/odoo-chl-tr.git
+# RUN git clone -b 10.0 git@bitbucket.org:hdblanco/odoo-chl-tr.git
 # RUN git clone -b 10.0 https://github.com/odoo-chile/l10n_cl_vat.git
 # RUN git clone -b 10.0 https://github.com/odoo-chile/base_state_ubication.git
 # RUN git clone -b 10.0 https://github.com/odoo-chile/decimal_precision_currency.git
