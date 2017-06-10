@@ -176,6 +176,9 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN sed  -i  "s/'auto_install': True/'auto_install': False/" /usr/lib/python2.7/dist-packages/odoo/addons/bus/__manifest__.py
 RUN sed  -i  "s/'auto_install': True/'auto_install': False/" /usr/lib/python2.7/dist-packages/odoo/addons/base_import/__manifest__.py
 RUN sed  -i  "s/'auto_install': True/'auto_install': False/" /usr/lib/python2.7/dist-packages/odoo/addons/portal/__manifest__.py
+RUN sed  -i  "s/'auto_install': False/'auto_install': True/" /opt/odoo/stable-addons/bmya/server-tools/base_technical_features/__manifest__.py
+RUN sed  -i  "s/'auto_install': False/'auto_install': True/" /opt/odoo/stable-addons/oca/web/web_responsive/__manifest__.py
+
 # RUN sed  -i  "s/'auto_install': False/'auto_install': True/" /opt/odoo/stable-addons/bmya/addons-yelizariev/web_logo/__manifest__.py
 
 # Change default aeroo host name to match docker name
