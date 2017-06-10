@@ -24,7 +24,6 @@ xmltodict
 dicttoxml
 elaphe
 cchardet
-signxml==1.0.2
 lxml
 pysftp
 xlwt

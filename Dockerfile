@@ -49,9 +49,16 @@ RUN git clone https://github.com/bmya/pyafipws-1.git /pyafipws
 WORKDIR /pyafipws/
 ADD ./requirements.txt /pyafipws/
 RUN pip install --upgrade pip
+RUN pip install setuptools --upgrade
 RUN pip install -r requirements.txt
 RUN python setup.py install
 RUN chmod 777 -R /usr/local/lib/python2.7/dist-packages/PyAfipWs-2.7.0-py2.7.egg/
+
+WORKDIR /
+RUN git clone -b master git@bitbucket.org:hdblanco/pysiidte.git
+WORKDIR /pysiidte/
+RUN python setup.py install
+# RUN chmod +777 -R /usr/local/lib/python2.7/dist-packages/pysiidte*
 
 # create directories for repos
 RUN mkdir -p /opt/odoo/stable-addons/oca
@@ -92,7 +99,7 @@ WORKDIR /opt/odoo/stable-addons/bmya/
 # RUN git clone -b 10.0 https://github.com/bmya/multi-company.git
 # RUN git clone -b 10.0 https://github.com/bmya/account-analytic.git
 # RUN git clone -b 10.0 https://github.com/bmya/purchase.git
-RUN git clone -b 10.0 https://github.com/bmya/reporting-engine.git
+RUN git clone -b 10.0 https://github.com/OCA/reporting-engine.git
 RUN git clone -b 10.0 https://github.com/bmya/crm.git
 # RUN git clone -b 10.0 https://github.com/bmya/adhoc-crm.git
 # RUN git clone -b 10.0 https://github.com/bmya/miscellaneous.git
@@ -110,8 +117,6 @@ RUN git clone -b 10.0 https://github.com/OCA/product-attribute.git
 # Localización Argentina
 # RUN git clone -b 10.0 https://github.com/ingadhoc/odoo-argentina.git
 
-# Localización Chilena (Con Factura Electrónica LibreDTE)
-# RUN git clone -b 10.0 https://github.com/bmya/odoo-bmya-cl.git
 RUN mkdir -p /mnt/extra-addons
 WORKDIR /mnt/extra-addons
 RUN mkdir odoo-chile
@@ -143,7 +148,7 @@ WORKDIR /opt/odoo/extra-addons
 
 WORKDIR /opt/odoo/stable-addons/bmya/odoo-chile/
 WORKDIR /opt/odoo/stable-addons/bmya/
-# RUN git clone -b 10.0 git@bitbucket.org:hdblanco/odoo-chl-tr.git
+RUN git clone -b 10.0_sii git@bitbucket.org:hdblanco/odoo-chl-tr.git
 # RUN git clone -b 10.0 https://github.com/odoo-chile/l10n_cl_vat.git
 # RUN git clone -b 10.0 https://github.com/odoo-chile/base_state_ubication.git
 # RUN git clone -b 10.0 https://github.com/odoo-chile/decimal_precision_currency.git
@@ -156,6 +161,7 @@ RUN git clone -b 10.0 https://github.com/OCA/bank-statement-reconcile.git
 RUN git clone -b 10.0 https://github.com/OCA/account-invoicing.git
 
 RUN chown -R odoo:odoo /opt/odoo/stable-addons
+RUN chmod -R 755 /opt/odoo/stable-addons
 WORKDIR /opt/odoo/stable-addons/
 # RUN git clone -b 10.0 https://github.com/aeroo/aeroo_reports.git
 
