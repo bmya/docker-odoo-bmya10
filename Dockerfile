@@ -1,4 +1,4 @@
-FROM bmya/odoo10
+FROM bmya/odoo10:l01
 MAINTAINER Blanco Martín & Asociados <daniel@blancomartin.cl>
 # install some dependencies
 USER root
