@@ -1,4 +1,5 @@
 XlsxWriter
+pdfkit
 httplib2>=0.7
 pysimplesoap==1.08.8
 fpdf>=1.7.2
