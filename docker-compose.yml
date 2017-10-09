@@ -27,4 +27,3 @@ networks:
          external: true
 volumes:
     odoo-data:
-    db-data:
